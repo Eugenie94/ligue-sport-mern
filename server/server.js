@@ -24,6 +24,17 @@ app.get("/", (req, res) => {
       res.end("<h1> Page d'accueil </h1>");
 })
 
+// Affiche les produits
+app.get("/produits", (req, res) => {
+      res.status(200).json(url)
+})
+
+
+
+
+
+
+
 app.listen(3000, () => {
       console.log("Serveur à l'écoute");
 })
