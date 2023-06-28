@@ -1,19 +1,7 @@
 const express = require('express')
 const app = express()
 let cors = require('cors');
-
-const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb+srv://admin:admin@cluster-ligue-sport.eujmpwy.mongodb.net/?retryWrites=true&w=majority';
-
-MongoClient.connect(url, function(err, client) {
-  if (err) {
-    console.error('Erreur de connexion à MongoDB :', err);
-    return;
-  }
-  console.log('Connecté à la base de données MongoDB');
-  
-  // À ce stade, vous pouvez effectuer des opérations sur la base de données
-});
+const db = require('./db');
 
 app.use(express.json())
 app.use(cors())
@@ -22,6 +10,8 @@ app.use(cors())
 app.get("/", (req, res) => {
       res.writeHead(200, {"Content-type": "text/html"});
       res.end("<h1> Page d'accueil </h1>");
+
+      //const database = db.getDB();
 })
 
 app.listen(3000, () => {
