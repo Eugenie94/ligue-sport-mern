@@ -156,7 +156,7 @@ app.get('/products', async (req, res) => {
 });
 
 // Afficher un produit par son id
-app.get('/products/:id', async (req, res) => {
+app.get('/product/:id', async (req, res) => {
   try {
     const productID = req.params.id;
     const product = await Product.findOne({ id: productID });
@@ -170,7 +170,7 @@ app.get('/products/:id', async (req, res) => {
 });
 
 // Modifier un produit
-app.put('/products/:id', async (req, res) => {
+app.put('/product/:id', async (req, res) => {
   try {
     const productID = req.params.id;
     const updatedProduct = req.body;
@@ -187,6 +187,36 @@ app.put('/products/:id', async (req, res) => {
     res.json(product);
   } catch (err) {
     res.status(500).send('Erreur du serveur');
+  }
+});
+
+// Affichage de la page permettant d'ajouter un product
+app.post('/product', async (req, res) => {
+  try {
+    const { name, quantity, price, image } = req.body;
+    const newProduct = new Product({ name, quantity, price,  image });
+    await newProduct.save();
+    res.status(200).json(newProduct);
+  } catch (error) {
+    console.error('Erreur lors de l\'ajout du produit', error);
+    res.status(500).json({ error: 'Erreur lors de l\'ajout du produit' });
+  }
+});
+
+// Affichage de la page permettant de supprimer un produit : fait 
+app.delete("/product/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+        const product = await Product.findByIdAndDelete(id);
+        if (product) {
+              const products = await Product.find();
+              res.status(200).json(products);
+        } else {
+              res.status(404).json({ message: "Aucun produit trouvé" });
+        }
+  } catch (error) {
+        console.error('Erreur lors de la suppression du produit :', error);
+        res.status(500).json({ message: "Erreur lors de la suppression du produit" });
   }
 });
 
