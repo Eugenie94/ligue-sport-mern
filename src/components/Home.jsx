@@ -19,6 +19,7 @@ export default function ProductGrid() {
 
   useEffect(() => {
     fetchProducts();
+
   }, []);
 
   const fetchProducts = async () => {
@@ -37,7 +38,7 @@ export default function ProductGrid() {
         {products.map((product) => (
           <Grid item xs={12} sm={6} md={4} key={product.id}>
             <Item>
-              <img src={product.image} alt={product.name} style={{ width: '40%' }} />
+              <img src={product.image} alt={product.name} style={{ width: '30%' }} /> {/* Ajuster la valeur de width */}
               <h3>{product.name}</h3>
               <Button variant="contained">Ajouter au panier</Button>
               <h1>{product.price} €</h1>
