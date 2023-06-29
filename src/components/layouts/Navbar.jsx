@@ -32,14 +32,14 @@ export default function Navbar() {
   return (
     <AppBar position="static">
       <Toolbar>
-      <SportsBasketballIcon sx={{ marginLeft: 'auto' }} />
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+      <SportsBasketballIcon  onClick={() => navigate('/')} sx={{ marginLeft: 'auto' }} />
+        <Typography  onClick={() => navigate('/')} variant="h6" component="div" sx={{ flexGrow: 1 }}>
           B-Ball Location
         </Typography>
         {isLoggedIn ? (
           <>
             {isAdmin && (
-              <Button color="inherit" onClick={() => navigate('/dashboard')}>
+              <Button color="inherit" onClick={() => navigate('/admin')}>
                 Dashboard
               </Button>
             )}
