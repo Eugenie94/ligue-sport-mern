@@ -51,7 +51,7 @@ export default function Navbar() {
             </Button>
 
 
-            <Button color="inherit" startIcon={<ShoppingCartIcon />}></Button>
+            <Button color="inherit" startIcon={<ShoppingCartIcon />} onClick={() => navigate('/cart')}></Button>
           </>
         ) : (
           <Button color="inherit" startIcon={<LoginIcon/>} onClick={() => navigate('/signin')}>
