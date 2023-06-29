@@ -116,7 +116,7 @@ export default function Product() {
 
     return (
         <div>
-            <h1>Products </h1>
+            <h1>Gestionnaire des produits </h1>
             <List>
                 {products.map((product) => (
                     // Formulaire d'édition d'un product
@@ -130,7 +130,7 @@ export default function Product() {
                                     onChange={handleEditInputChange}
                                 />
                                 <input
-                                    type="image"
+                                    type="text"
                                     name="image"
                                     value={editedProduct.image}
                                     onChange={handleEditInputChange}
@@ -176,14 +176,15 @@ export default function Product() {
                                 name="name"
                                 value={newProduct.name}
                                 onChange={handleNewProductChange}
-                                placeholder="Name"
+                                placeholder="Nom"
                                 required
                             />
                             <input
-                                type="file"
+                                type="text"
                                 name="image"
                                 // Ajouter un gestionnaire de changement d'image
-                                onChange={handleNewProductImageChange}
+                                onChange={handleNewProductChange}
+                                placeholder="Lien url de l'image"
                                 required
                             />
                             <input
@@ -191,7 +192,7 @@ export default function Product() {
                                 name="quantity"
                                 value={newProduct.quantity}
                                 onChange={handleNewProductChange}
-                                placeholder="Quantity"
+                                placeholder="Quantité"
                                 required
                             />
                             <input
@@ -200,10 +201,10 @@ export default function Product() {
                                 name="price"
                                 value={newProduct.price === '' ? '' : parseFloat(newProduct.price)}
                                 onChange={handleNewProductChange}
-                                placeholder="Price"
+                                placeholder="Prix"
                                 required
                             />
-                            <button type="submit">Add Product</button>
+                            <button type="submit">Ajouter un produit</button>
                         </form>
                     </ListItem>
                 )}

@@ -107,7 +107,7 @@ export default function User() {
 
     return (
         <div>
-            <h1>Users</h1>
+            <h1>Gestionnaire des utilisateurs</h1>
             <List>
                 {users.map((user) => (
                     // Formulaire d'édition d'un user 
@@ -161,7 +161,7 @@ export default function User() {
                                 name="firstName"
                                 value={newUser.firstName}
                                 onChange={handleNewUserChange}
-                                placeholder="First Name"
+                                placeholder="Prénom"
                                 required
                             />
                             <input
@@ -169,7 +169,7 @@ export default function User() {
                                 name="lastName"
                                 value={newUser.lastName}
                                 onChange={handleNewUserChange}
-                                placeholder="Last Name"
+                                placeholder="Nom de famille"
                                 required
                             />
                             <input
@@ -185,10 +185,10 @@ export default function User() {
                                 name="password"
                                 value={newUser.password}
                                 onChange={handleNewUserChange}
-                                placeholder="password"
+                                placeholder="Mot de passe"
                                 required
                             />
-                            <button type="submit">Add User</button>
+                            <button type="submit">Ajouter un utilisateur</button>
                         </form>
                     </ListItem>
                 )}

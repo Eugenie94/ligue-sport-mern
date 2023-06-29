@@ -42,9 +42,11 @@ export default function ProductGrid() {
             <Item>
               <img src={product.image} alt={product.name} style={{ width: '30%' }} /> {/* Ajuster la valeur de width */}
               <h3>{product.name}</h3>
-              <Button startIcon={<ShoppingCartIcon/>} variant="contained">Ajouter au panier</Button>
+              <Button startIcon={<ShoppingCartIcon />} variant="contained">Ajouter au panier</Button>
               <h1>{product.price} €</h1>
-              <h2>Quantité disponible: {product.quantity}</h2>
+              <h2>
+                {product.quantity === 0 ? 'Stock Vide' : `Quantité disponible: ${product.quantity}`}
+              </h2>
             </Item>
           </Grid>
         ))}
