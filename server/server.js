@@ -1,30 +1,43 @@
-const express = require('express')
-const app = express()
-let cors = require('cors');
-const db = require('./db');
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
 
-app.use(express.json())
-app.use(cors())
+const app = express();
+const port = 3000;
 
-// Route page d'accueil
-app.get("/", (req, res) => {
-      res.writeHead(200, {"Content-type": "text/html"});
-      res.end("<h1> Page d'accueil </h1>");
+const db = require('../model/db.js'); // Importez le module db.js
 
-      //const database = db.getDB();
-})
+const userSchema = new mongoose.Schema({
+  firstName: String,
+  lastName: String,
+  email: String,
+  password: String
+}, { collection: 'users' });
 
-// Affiche les produits
-app.get("/produits", (req, res) => {
-      res.status(200).json(url)
-})
+const User = mongoose.model('User', userSchema, 'users');
 
+app.use(express.json());
+app.use(cors());
 
+// Route pour afficher tous les utilisateurs
+app.get('/', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erreur lors de la récupération des utilisateurs' });
+  }
+});
 
-
-
-
-
-app.listen(3000, () => {
-      console.log("Serveur à l'écoute");
-})
+// Connexion à la base de données MongoDB
+db.connect()
+  .then(() => {
+    // Démarrer le serveur après la connexion réussie
+    app.listen(port, () => {
+      console.log(`Le serveur est à l'écoute sur le port ${port}`);
+    });
+  })
+  .catch((err) => {
+    console.error('Erreur lors de la connexion à la base de données', err);
+  });
