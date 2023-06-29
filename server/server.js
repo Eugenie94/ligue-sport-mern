@@ -6,15 +6,7 @@ const app = express();
 const port = 3000;
 
 const db = require('../model/db.js'); // Importez le module db.js
-
-const userSchema = new mongoose.Schema({
-  firstName: String,
-  lastName: String,
-  email: String,
-  password: String
-}, { collection: 'users' });
-
-const User = mongoose.model('User', userSchema, 'users');
+const User = require('../model/schema/userSchema.js'); // Importez le schéma utilisateur
 
 app.use(express.json());
 app.use(cors());
