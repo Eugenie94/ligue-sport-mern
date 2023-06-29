@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const bcrypt = require('bcrypt');
 
 const app = express();
 const port = 4000;
@@ -7,7 +8,6 @@ const port = 4000;
 const db = require('../model/db.js'); // Importez le module db.js
 const User = require('../model/schema/userSchema.js'); // Importez le schéma utilisateur
 const Product = require('../model/schema/productSchema.js'); // Importez le schéma produit
-
 
 app.use(express.json());
 app.use(cors());
@@ -34,6 +34,50 @@ app.get('/products', async (req, res) => {
   }
 });
 
+// Route de connexion
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Vérifiez les informations d'identification de l'utilisateur dans la base de données
+    const user = await User.findOne({ email });
+    if (!user || user.password !== password) {
+      res.status(401).json({ error: 'Identifiants de connexion invalides' });
+      return;
+    }
+
+    // Récupérez toutes les informations de l'utilisateur
+    const { _id, admin } = user;
+
+    // Connexion réussie, renvoyez les informations de l'utilisateur
+    res.json({
+      user: { _id,admin},
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erreur lors de la connexion' });
+  }
+});
+
+
+// Route pour obtenir les informations d'un utilisateur spécifique
+app.get('/user/:id', async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    // Recherchez l'utilisateur dans la base de données par son identifiant
+    const user = await User.findById(userId);
+    if (!user) {
+      res.status(404).json({ error: 'Utilisateur non trouvé' });
+      return;
+    }
+    // Renvoyer les informations de l'utilisateur
+    res.json({ user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erreur lors de la récupération des informations de l\'utilisateur' });
+  }
+});
 
 //Afficher un utilisateur par son id
 app.get('/users/:email', async (req, res) => {
