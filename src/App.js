@@ -3,9 +3,12 @@ import './App.css';
 
 import Navbar from "./components/layouts/Navbar";
 import Home from "./components/Home"
+import Login from "./components/Login"
+import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import User from './components/User';
 import Product from './components/Product';
+
 
 function App() {
   return (
@@ -14,12 +17,11 @@ function App() {
       <Routes>
         {/* Affiche les produits l'accueil */}
         <Route path="/" element={<Home />}></Route>
-        {/* Affiche back office */}
+        <Route path="/signin" element={<Login />}></Route>
+        <Route path="/register" element={<Register />}></Route>
         <Route path="/admin" element={<Dashboard />}></Route>
-        {/* Affiche les users back office*/}
-        <Route path="/admin/users" element={<User />}></Route>
-        {/* Affiche les products back office */}
-        <Route path="/admin/products" element={<Product />}></Route>
+        <Route path="/admin/users" element={<User />}></Route>        
+        <Route path="/admin/products" element={<Product />}></Route>        
       </Routes>
     </div>
   );
