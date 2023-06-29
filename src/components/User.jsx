@@ -27,7 +27,7 @@ export default function User() {
     // Fonction pour récupérer la liste des utilisateurs depuis le serveur
     const fetchUsers = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/admin/users');
+            const response = await axios.get('http://localhost:4000/users');
             setUsers(response.data);
         } catch (error) {
             console.error('Erreur lors de la récupération des utilisateurs :', error);
@@ -47,7 +47,7 @@ export default function User() {
     const handleAddUserSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:4000/admin/users', newUser);
+            const response = await axios.post('http://localhost:4000/register', newUser);
 
             if (response.status === 200) {
                 console.log('Utilisateur ajouté avec succès');
@@ -64,7 +64,7 @@ export default function User() {
     // Fonction pour supprimer un utilisateur
     const deleteUser = async (userId) => {
         try {
-            await axios.delete(`http://localhost:4000/admin/users/${userId}`);
+            await axios.delete(`http://localhost:4000/user/${userId}`);
             setUsers(users.filter(user => user._id !== userId));
         } catch (error) {
             console.error('Erreur lors de la suppression de l\'utilisateur :', error);
@@ -91,7 +91,7 @@ export default function User() {
         e.preventDefault();
         try {
             await axios.put(
-                `http://localhost:4000/admin/users/${editedUser._id}`,
+                `http://localhost:4000/user/${editedUser._id}`,
                 editedUser
             );
             setUsers((prevUsers) =>
