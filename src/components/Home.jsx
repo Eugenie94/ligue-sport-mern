@@ -5,6 +5,8 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -40,7 +42,7 @@ export default function ProductGrid() {
             <Item>
               <img src={product.image} alt={product.name} style={{ width: '30%' }} /> {/* Ajuster la valeur de width */}
               <h3>{product.name}</h3>
-              <Button variant="contained">Ajouter au panier</Button>
+              <Button startIcon={<ShoppingCartIcon/>} variant="contained">Ajouter au panier</Button>
               <h1>{product.price} €</h1>
               <h2>Quantité disponible: {product.quantity}</h2>
             </Item>
