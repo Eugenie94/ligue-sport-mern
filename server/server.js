@@ -1,10 +1,18 @@
 // Import du module Express
 const express = require('express');
 const cors = require('cors');
+<<<<<<< Updated upstream
 const bcrypt = require('bcrypt');
 
 const app = express();
 const port = 4000;
+=======
+// Import du module Mongoose pour la communication avec MongoDB
+const mongoose = require('mongoose');
+// Import du modèle de schéma User
+const User = require('../model/schema/userSchema');
+const Product = require('../model/schema/productSchema');
+>>>>>>> Stashed changes
 
 const db = require('../model/db.js');
 const User = require('../model/schema/userSchema.js');
@@ -100,7 +108,7 @@ app.put('/admin/users/:id', async (req, res) => {
       }
 });
 
-// Affichage de la page permettant de supprimer un user : fait 
+// Affichage de la page permettant de supprimer un user4
 app.delete("/admin/users/:id", async (req, res) => {
       const id = req.params.id;
       try {
@@ -119,54 +127,72 @@ app.delete("/admin/users/:id", async (req, res) => {
 
 // ----------------------------- Product  ----------------------------- //
 
-// Permet d'enregistrer les données
-function saveProduct() {
-      fs.writeFile('./product.json', JSON.stringify(product), (err) => {
-            if (err) {
-                  console.error("Erreur lors de l'écriture du fichier JSON :", err);
-            } else {
-                  console.log("Fichier JSON mis à jour avec succès");
-            }
-      });
-}
-
-// Affichage de la page permettant d'afficher un product
-app.get("/admin/product", (req, res) => {
-      res.status(200).json(product)
+// Affichage la page admin
+app.get("/admin", (req, res) => {
+      res.writeHead(200, { "Content-type": "text/html" });
+      res.end("<h1> Page Administrateur avec deus boutons (user et product)</h1>");
+      res.status(200).json(products)
 })
 
-// Affichage de la page permettant d'ajouter un product
-app.post("/admin/product", (req, res) => {
-      product.push(req.body);
-      saveProduct();
-      res.status(200).json(product);
-})
-
-// Affichage de la page permettant de modifier un product
-app.put("/admin/product/:id", (req, res) => {
-      const id = parseInt(req.params.id);
-      let unProduct = product.find((product) => product.id === id);
-      if (unProduct) {
-            unProduct.titre = req.body.name;
-            unProduct.auteur = req.body.price;
-            unProduct.prix = req.body.description;
-            saveProduct();
-            res.status(200).json(unProduct);
-      } else {
-            res.status(404).json({ message: "Aucun product trouvé" });
+// Affichage de la page permettant d'afficher les products
+app.get("/admin/products", async (req, res) => {
+      try {
+            const products = await Product.find();
+            res.status(200).json(products);
+      } catch (error) {
+            console.error("Erreur lors de la récupération des produits :", error);
+            res.status(500).json({ error: "Erreur lors de la récupération des produits" });
       }
 });
 
-// Affichage de la page permettant de supprimer un product
-app.delete("/admin/product/:id", (req, res) => {
-      const id = parseInt(req.params.id);
-      const index = product.findIndex((product) => product.id === id);
-      if (index !== -1) {
-            product.splice(index, 1);
-            saveProduct();
-            res.status(200).json(product);
-      } else {
-            res.status(404).json({ message: "Aucun product trouvé" });
+// Affichage de la page permettant d'ajouter un product
+app.post('/admin/products', async (req, res) => {
+      try {
+        const { name, quantity, price, image } = req.body;
+        const newProduct = new Product({ name, quantity, price,  image });
+        await newProduct.save();
+        res.status(200).json(newProduct);
+      } catch (error) {
+        console.error('Erreur lors de l\'ajout du produit', error);
+        res.status(500).json({ error: 'Erreur lors de l\'ajout du produit' });
+      }
+    });
+
+// Affichage de la page permettant de modifier un produit
+app.put('/admin/products/:id', async (req, res) => {
+      try {
+            const productId = req.params.id;
+            const { name, quantity, price, image  } = req.body;
+            const updatedProduct = await Product.findByIdAndUpdate(
+                  productId,
+                  { name, quantity, price, image  },
+                  { new: true }
+            );
+            if (updatedProduct) {
+                  res.status(200).json(updatedProduct);
+            } else {
+                  res.status(404).json({ message: 'Produit non trouvé' });
+            }
+      } catch (error) {
+            console.error('Erreur lors de la mise à jour du produit :', error);
+            res.status(500).json({ error: 'Erreur lors de la mise à jour du produit' });
+      }
+});
+
+// Affichage de la page permettant de supprimer un produit : fait 
+app.delete("/admin/products/:id", async (req, res) => {
+      const id = req.params.id;
+      try {
+            const product = await Product.findByIdAndDelete(id);
+            if (product) {
+                  const products = await Product.find();
+                  res.status(200).json(products);
+            } else {
+                  res.status(404).json({ message: "Aucun produit trouvé" });
+            }
+      } catch (error) {
+            console.error('Erreur lors de la suppression du produit :', error);
+            res.status(500).json({ message: "Erreur lors de la suppression du produit" });
       }
 });
 
