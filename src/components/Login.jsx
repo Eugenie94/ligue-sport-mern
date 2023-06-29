@@ -19,7 +19,7 @@ export default function SignIn() {
     // Vérifier si l'utilisateur est déjà connecté lors du chargement de la page
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     if (isLoggedIn) {
-      navigate('/dashboard');
+      navigate('/');
     }
   }, []);
 
@@ -58,7 +58,9 @@ export default function SignIn() {
       setIsAdmin(!!user.admin);
   
       // Redirection vers la page souhaitée après une connexion réussie
+      window.location.reload()
       navigate('/');
+    
     } catch (error) {
       console.error(error);
       // Affichage du message d'erreur
