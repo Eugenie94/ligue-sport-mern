@@ -9,7 +9,6 @@ import Dashboard from './components/Dashboard';
 import User from './components/User';
 import Product from './components/Product';
 
-
 function App() {
   return (
     <div className="App">
@@ -20,8 +19,8 @@ function App() {
         <Route path="/signin" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/admin" element={<Dashboard />}></Route>
-        <Route path="/admin/users" element={<User />}></Route>        
-        <Route path="/admin/products" element={<Product />}></Route>        
+        <Route path="/admin/users" element={<User />}></Route>    
+        <Route path="/admin/products" element={<Product />}></Route>    
       </Routes>
     </div>
   );

@@ -17,7 +17,7 @@ export default function User() {
         password: ''
     });
     // État pour stocker les informations de l'utilisateur en cours de modification
-    const [editedUser, setEditedUser] = useState(null); // Ajout de la déclaration et de l'initialisation de editedUser
+    const [editedUser, setEditedUser] = useState(null);
 
     // Effectue une requête pour récupérer la liste des utilisateurs lors du chargement du composant
     useEffect(() => {

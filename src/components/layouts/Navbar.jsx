@@ -39,7 +39,6 @@ export default function Navbar() {
       <Toolbar>
         <SportsBasketballIcon onClick={() => navigate('/')} sx={{ marginLeft: 'auto' }} />
         <Typography onClick={() => navigate('/')} variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          B-Ball Location
         </Typography>
         {isLoggedIn ? (
           <>
