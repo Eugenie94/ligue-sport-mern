@@ -5,6 +5,7 @@ import Navbar from "./components/layouts/Navbar";
 import Home from "./components/Home"
 import Dashboard from './components/Dashboard';
 import User from './components/User';
+import Product from './components/Product';
 
 function App() {
   return (
@@ -17,8 +18,8 @@ function App() {
         <Route path="/admin" element={<Dashboard />}></Route>
         {/* Affiche les users back office*/}
         <Route path="/admin/users" element={<User />}></Route>
-        {/* Affiche les products back office
-        <Route path="/admin/users" element={<User />}></Route> */}
+        {/* Affiche les products back office */}
+        <Route path="/admin/products" element={<Product />}></Route>
       </Routes>
     </div>
   );
