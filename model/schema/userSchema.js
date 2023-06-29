@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   lastName: String,
   email: String,
   password: String,
-  admin: Boolean
-}, { collection: 'users' });
+  admin: Boolean  
+}, {versionKey : false}, { collection: 'users' });
 
 module.exports = mongoose.model('User', userSchema, 'users');

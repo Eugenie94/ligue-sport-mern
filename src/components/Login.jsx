@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -14,6 +12,8 @@ import axios from 'axios';
 export default function SignIn() {
   const navigate = useNavigate();
   const [error, setError] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     // Vérifier si l'utilisateur est déjà connecté lors du chargement de la page
@@ -52,6 +52,10 @@ export default function SignIn() {
         // Supprimer l'état d'administrateur du localStorage s'il existe
         localStorage.removeItem('isAdmin');
       }
+  
+      // Mettre à jour les états isLoggedIn et isAdmin dans le composant SignIn
+      setIsLoggedIn(true);
+      setIsAdmin(!!user.admin);
   
       // Redirection vers la page souhaitée après une connexion réussie
       navigate('/');

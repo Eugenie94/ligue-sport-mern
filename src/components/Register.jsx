@@ -15,6 +15,7 @@ export default function Register() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -31,8 +32,12 @@ export default function Register() {
       // Rediriger vers la page de connexion après une inscription réussie
       navigate('/signin');
     } catch (error) {
-      console.error(error);
       // Gérer les erreurs d'inscription
+      if (error.response && error.response.data && error.response.data.error) {
+        setErrorMessage(error.response.data.error);
+      } else {
+        setErrorMessage('Une erreur s\'est produite lors de l\'inscription');
+      }
     }
   };
 
@@ -102,6 +107,11 @@ export default function Register() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          {errorMessage && (
+            <Typography color="error" variant="body1" align="center" gutterBottom>
+              {errorMessage}
+            </Typography>
+          )}
           <Button
             type="submit"
             fullWidth

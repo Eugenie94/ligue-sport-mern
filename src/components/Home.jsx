@@ -16,7 +16,6 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function ProductGrid() {
   const [products, setProducts] = useState([]);
-  const [userName, setUserName] = useState('');
 
   useEffect(() => {
     fetchProducts();
