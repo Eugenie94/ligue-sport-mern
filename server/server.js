@@ -1,9 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
 
 const app = express();
-const port = 3000;
+const port = 4000;
 
 const db = require('../model/db.js'); // Importez le module db.js
 const User = require('../model/schema/userSchema.js'); // Importez le schéma utilisateur
@@ -15,7 +14,7 @@ app.use(cors());
 app.get('/', async (req, res) => {
   try {
     const users = await User.find();
-    res.json(users);
+    res.send(users);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Erreur lors de la récupération des utilisateurs' });
