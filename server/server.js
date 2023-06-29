@@ -41,7 +41,14 @@ app.post('/login', async (req, res) => {
   try {
     // Vérifiez les informations d'identification de l'utilisateur dans la base de données
     const user = await User.findOne({ email });
-    if (!user || user.password !== password) {
+    if (!user) {
+      res.status(401).json({ error: 'Identifiants de connexion invalides' });
+      return;
+    }
+
+    // Vérifiez le mot de passe en utilisant bcrypt
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
       res.status(401).json({ error: 'Identifiants de connexion invalides' });
       return;
     }
@@ -51,13 +58,51 @@ app.post('/login', async (req, res) => {
 
     // Connexion réussie, renvoyez les informations de l'utilisateur
     res.json({
-      user: { _id,admin},
+      user: { _id, admin },
     });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Erreur lors de la connexion' });
   }
 });
+
+
+// Route d'inscription
+app.post('/register', async (req, res) => {
+  const { firstName, lastName, email, password } = req.body;
+
+  try {
+    // Vérifier si l'utilisateur existe déjà dans la base de données
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      res.status(400).json({ error: 'Cet email est déjà utilisé' });
+      return;
+    }
+
+    // Créer un nouvel utilisateur avec les données fournies
+    const newUser = new User({
+      firstName,
+      lastName,
+      email,
+      password,
+      admin: false, // Définir la valeur par défaut de admin à false
+    });
+
+    // Hasher le mot de passe avant de l'enregistrer dans la base de données
+    const hashedPassword = await bcrypt.hash(password, 10);
+    newUser.password = hashedPassword;
+
+    // Enregistrer le nouvel utilisateur dans la base de données
+    const savedUser = await newUser.save();
+
+    // Renvoyer les informations de l'utilisateur enregistré
+    res.json(savedUser);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erreur lors de l\'inscription' });
+  }
+});
+
 
 
 // Route pour obtenir les informations d'un utilisateur spécifique

@@ -54,7 +54,7 @@ export default function SignIn() {
       }
   
       // Redirection vers la page souhaitée après une connexion réussie
-      navigate('/dashboard');
+      navigate('/');
     } catch (error) {
       console.error(error);
       // Affichage du message d'erreur
@@ -78,7 +78,7 @@ export default function SignIn() {
         }}
       >
         <Typography component="h1" variant="h5">
-          Sign in
+          Connexion
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -112,13 +112,13 @@ export default function SignIn() {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            Se connecter
           </Button>
 
           <Grid container>
             <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link href="/register" variant="body2">
+                {"Tu n'as pas de compte ? Inscris-toi"}
               </Link>
             </Grid>
           </Grid>

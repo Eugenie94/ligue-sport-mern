@@ -6,7 +6,6 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 
-
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -17,6 +16,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function ProductGrid() {
   const [products, setProducts] = useState([]);
+  const [userName, setUserName] = useState('');
 
   useEffect(() => {
     fetchProducts();
@@ -30,6 +30,7 @@ export default function ProductGrid() {
       console.error('Erreur lors de la récupération des produits :', error);
     }
   };
+
 
   return (
     <Box sx={{ flexGrow: 1 }}>

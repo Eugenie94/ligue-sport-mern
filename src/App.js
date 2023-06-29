@@ -4,6 +4,7 @@ import './App.css';
 import Navbar from "./components/layouts/Navbar";
 import Home from "./components/Home"
 import Login from "./components/Login"
+import Register from './components/Register';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/signin" element={<Login />}></Route>
+        <Route path="/register" element={<Register />}></Route>
       </Routes>
     </div>
   );
