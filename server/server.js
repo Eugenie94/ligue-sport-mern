@@ -81,7 +81,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// Route pour afficher tous les utilisateurs
+// Afficher tous les utilisateurs
 app.get('/users', async (req, res) => {
   try {
     const users = await User.find();
@@ -91,7 +91,7 @@ app.get('/users', async (req, res) => {
   }
 });
 
-// Route pour obtenir les informations d'un utilisateur spécifique
+// User par id
 app.get('/user/:id', async (req, res) => {
   const userId = req.params.id;
   try {
@@ -144,7 +144,7 @@ app.delete("/user/:id", async (req, res) => {
   }
 });
 
-// Route pour afficher tous les produits
+// Afficher tous les produits
 app.get('/products', async (req, res) => {
   try {
     const products = await Product.find();
@@ -190,7 +190,7 @@ app.put('/product/:id', async (req, res) => {
   }
 });
 
-// Affichage de la page permettant d'ajouter un product
+// Ajouter un product
 app.post('/product', async (req, res) => {
   try {
     const { name, quantity, price, image } = req.body;
@@ -203,7 +203,7 @@ app.post('/product', async (req, res) => {
   }
 });
 
-// Affichage de la page permettant de supprimer un produit : fait 
+// Supprimer un produit : fait 
 app.delete("/product/:id", async (req, res) => {
   const id = req.params.id;
   try {
