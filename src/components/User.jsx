@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { List, ListItem, ListItemText, IconButton } from '@material-ui/core';
+import { Table, TableHead, TableBody, TableRow, TableCell, IconButton, TextField, Button } from '@material-ui/core';
 // Import de l'icône de suppression de Material-UI
 import DeleteIcon from '@material-ui/icons/Delete';
 // Import de l'icône de modification de Material-UI
 import EditIcon from '@material-ui/icons/Edit';
+// Import CSS
+import '../assets/styles/user.css'
 
 export default function User() {
     // État pour stocker la liste des utilisateurs
@@ -107,93 +109,135 @@ export default function User() {
 
     return (
         <div>
-            <h1>Users</h1>
-            <List>
-                {users.map((user) => (
-                    // Formulaire d'édition d'un user 
-                    <ListItem key={user._id}>
-                        {editedUser && editedUser._id === user._id && (
-                            <form onSubmit={handleEditUserSubmit}>
-                                <input
-                                    type="text"
-                                    name="firstName"
-                                    value={editedUser.firstName}
-                                    onChange={handleEditInputChange}
-                                />
-                                <input
-                                    type="text"
-                                    name="lastName"
-                                    value={editedUser.lastName}
-                                    onChange={handleEditInputChange}
-                                />
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={editedUser.email}
-                                    onChange={handleEditInputChange}
-                                />
-                                <input
-                                    type="password"
-                                    name="password"
-                                    value={editedUser.password}
-                                    onChange={handleEditInputChange}
-                                />
-                                <button type="submit">Save</button>
-                            </form>
-                        )}
-                        <ListItemText primary={user.firstName + ' ' + user.lastName} />
-                        <ListItemText primary={user.email} />
-                        <ListItemText primary={user.password} />
-                        <IconButton onClick={() => deleteUser(user._id)} color="secondary">
-                            <DeleteIcon />
-                        </IconButton>
-                        <IconButton onClick={() => editUser(user._id)} color="primary">
-                            <EditIcon />
-                        </IconButton>
-                    </ListItem>
-                ))}
-                {/* // Formulaire d'ajout d'un user */}
-                {!editedUser && ( // Cache le formulaire si on est en train de modifier un user
-                    <ListItem>
-                        <form onSubmit={handleAddUserSubmit}>
-                            <input
-                                type="text"
-                                name="firstName"
-                                value={newUser.firstName}
-                                onChange={handleNewUserChange}
-                                placeholder="First Name"
-                                required
-                            />
-                            <input
-                                type="text"
-                                name="lastName"
-                                value={newUser.lastName}
-                                onChange={handleNewUserChange}
-                                placeholder="Last Name"
-                                required
-                            />
-                            <input
-                                type="email"
-                                name="email"
-                                value={newUser.email}
-                                onChange={handleNewUserChange}
-                                placeholder="Email"
-                                required
-                            />
-                            <input
-                                type="password"
-                                name="password"
-                                value={newUser.password}
-                                onChange={handleNewUserChange}
-                                placeholder="password"
-                                required
-                            />
-                            <button type="submit">Add User</button>
-                        </form>
-                    </ListItem>
-                )}
-            </List>
+            {!editedUser && (
+                <div>
+                    {/* Formulaire d'ajout d'un utilisateur */}
+                    <form onSubmit={handleAddUserSubmit}>
+                        <TextField
+                            type="text"
+                            name="firstName"
+                            value={newUser.firstName}
+                            onChange={handleNewUserChange}
+                            label="Prénom"
+                            required
+                        />
+                        <TextField
+                            type="text"
+                            name="lastName"
+                            value={newUser.lastName}
+                            onChange={handleNewUserChange}
+                            label="Nom"
+                            required
+                        />
+                        <TextField
+                            type="email"
+                            name="email"
+                            value={newUser.email}
+                            onChange={handleNewUserChange}
+                            label="Email"
+                            required
+                        />
+                        <TextField
+                            type="password"
+                            name="password"
+                            value={newUser.password}
+                            onChange={handleNewUserChange}
+                            label="Mot de passe"
+                            required
+                        />
+                        <Button type="submit" variant="contained" color="primary">
+                            Ajouter un utilisateur
+                        </Button>
+                    </form>
+                </div>
+            )}
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Prénom</TableCell>
+                        <TableCell>Nom</TableCell>
+                        <TableCell>Email</TableCell>
+                        <TableCell>Mot de passe</TableCell>
+                        <TableCell>Actions</TableCell>
+                    </TableRow>
+                </TableHead>
+                {/* Formulaire d'édition d'un utilisateur */}
+                <TableBody>
+                    {users.map((user) => (
+                        <TableRow key={user._id}>
+                            {editedUser && editedUser._id === user._id ? (
+                                <React.Fragment>
+                                    <TableCell>
+                                        <form onSubmit={handleEditUserSubmit}>
+                                            <input
+                                                type="text"
+                                                name="firstName"
+                                                value={editedUser.firstName}
+                                                onChange={handleEditInputChange}
+                                                className="edit-input"
+                                            />
+                                        </form>
+                                    </TableCell>
+                                    <TableCell>
+                                        <form onSubmit={handleEditUserSubmit}>
+                                            <input
+                                                type="text"
+                                                name="lastName"
+                                                value={editedUser.lastName}
+                                                onChange={handleEditInputChange}
+                                                className="edit-input"
+                                            />
+                                        </form>
+                                    </TableCell>
+                                    <TableCell>
+                                        <form onSubmit={handleEditUserSubmit}>
+                                            <input
+                                                type="email"
+                                                name="email"
+                                                value={editedUser.email}
+                                                onChange={handleEditInputChange}
+                                                className="edit-input"
+                                            />
+                                        </form>
+                                    </TableCell>
+                                    <TableCell>
+                                        <form onSubmit={handleEditUserSubmit}>
+                                            <input
+                                                type="password"
+                                                name="password"
+                                                value={editedUser.password}
+                                                onChange={handleEditInputChange}
+                                                className="edit-input"
+                                            />
+                                        </form>
+                                    </TableCell>
+                                    <TableCell>
+                                        <form onSubmit={handleEditUserSubmit}>
+                                            <button type="submit" className="save-button">Save</button>
+                                        </form>
+                                    </TableCell>
+                                </React.Fragment>
+                            ) : (
+                                <React.Fragment>
+                                    <TableCell>{user.firstName}</TableCell>
+                                    <TableCell>{user.lastName}</TableCell>
+                                    <TableCell>{user.email}</TableCell>
+                                    <TableCell>{user.password}</TableCell>
+                                    <TableCell>
+                                        <IconButton onClick={() => deleteUser(user._id)} color="secondary">
+                                            <DeleteIcon />
+                                        </IconButton>
+                                        <IconButton onClick={() => editUser(user._id)} color="primary">
+                                            <EditIcon />
+                                        </IconButton>
+                                    </TableCell>
+                                </React.Fragment>
+                            )}
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
         </div>
     );
 
-}
+}      

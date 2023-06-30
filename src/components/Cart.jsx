@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 
-
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
 
@@ -14,9 +13,18 @@ const Cart = () => {
   }, []);
 
   const removeFromCart = (itemId) => {
-    const updatedCart = cartItems.filter((item) => item.id !== itemId);
-    setCartItems(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    const updatedCart = [...cartItems];
+    const itemIndex = updatedCart.findIndex((item) => item.id === itemId);
+    if (itemIndex > -1) {
+      updatedCart.splice(itemIndex, 1);
+      setCartItems(updatedCart);
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+    }
+  };
+
+  const getTotalPrice = () => {
+    const totalPrice = cartItems.reduce((accumulator, item) => accumulator + item.price, 0);
+    return totalPrice.toFixed(2);
   };
 
   return (
@@ -30,10 +38,10 @@ const Cart = () => {
           <table>
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Price</th>
+                <th>Nom</th>
+                <th>Prix</th>
                 <th>Image</th>
-                <th>Action</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -45,12 +53,19 @@ const Cart = () => {
                     <img src={item.image} alt={item.name} style={{ width: '15%' }} />
                   </td>
                   <td>
-
-                  <Button color="inherit" startIcon={<DeleteIcon/>} onClick={() => removeFromCart(item.id)}></Button>
+                    <Button color="inherit" startIcon={<DeleteIcon />} onClick={() => removeFromCart(item.id)}></Button>
                   </td>
                 </tr>
               ))}
             </tbody>
+            <tfoot>
+              <tr>
+                <td colSpan="3" style={{ textAlign: 'right' }}>
+                  Total:
+                </td>
+                <td>{getTotalPrice()} €</td>
+              </tr>
+            </tfoot>
           </table>
         )}
       </div>

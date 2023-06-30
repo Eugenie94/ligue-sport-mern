@@ -62,7 +62,7 @@ export default function ProductGrid() {
                 Ajouter au panier
               </Button>
               <h1>{product.price} €</h1>
-              <h2>Quantité disponible: {product.quantity}</h2>
+              {product.quantity === 0 ? 'Stock Vide' : `Quantité disponible: ${product.quantity}`}
             </Item>
           </Grid>
         ))}

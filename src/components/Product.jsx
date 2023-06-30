@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { List, ListItem, ListItemText, IconButton } from '@material-ui/core';
+import { Table, TableHead, TableBody, TableRow, TableCell, IconButton, TextField, Button } from '@material-ui/core';
 // Import de l'icône de suppression de Material-UI
 import DeleteIcon from '@material-ui/icons/Delete';
 // Import de l'icône de modification de Material-UI
 import EditIcon from '@material-ui/icons/Edit';
+import '../assets/styles/product.css'
 
 export default function Product() {
     // État pour stocker la liste des produits
@@ -48,7 +49,7 @@ export default function Product() {
         const file = e.target.files[0];
         setNewProduct((prevProduct) => ({
             ...prevProduct,
-            image: file,
+            image: '', // Set it to an empty string
         }));
     };
 
@@ -62,6 +63,12 @@ export default function Product() {
                 console.log('Produit ajouté avec succès');
                 // Actualiser la liste des produits après l'ajout d'un nouvel produit
                 fetchProducts();
+                setNewProduct({
+                    name: '',
+                    quantity: '',
+                    price: '',
+                    image: ''
+                });
             } else {
                 throw new Error('Erreur lors de l\'ajout du produit');
             }
@@ -114,100 +121,151 @@ export default function Product() {
         }
     };
 
+    // Fonction pour gérer le changement de l'image du produit en cours de modification
+    const handleEditImageChange = (e) => {
+        const file = e.target.files[0];
+        setEditedProduct((prevProduct) => ({
+            ...prevProduct,
+            image: '', // Set it to an empty string
+        }));
+    };
+
     return (
         <div>
-            <h1>Products </h1>
-            <List>
-                {products.map((product) => (
-                    // Formulaire d'édition d'un product
-                    <ListItem key={product._id}>
-                        {editedProduct && editedProduct._id === product._id && (
-                            <form onSubmit={handleEditProductSubmit}>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={editedProduct.name}
-                                    onChange={handleEditInputChange}
-                                />
-                                <input
-                                    type="image"
-                                    name="image"
-                                    value={editedProduct.image}
-                                    onChange={handleEditInputChange}
-                                    alt="Product Image"
-                                    className="edit-input"
-                                />
-                                <input
-                                    type="number"
-                                    name="quantity"
-                                    value={parseInt(editedProduct.quantity)}
-                                    onChange={handleEditInputChange}
-                                />
-                                <input
-                                    type="number"
-                                    step="0.01"
-                                    name="price"
-                                    value={editedProduct.price}
-                                    onChange={handleEditInputChange}
-                                />
-                                <button type="submit">Save</button>
-                            </form>
-                        )}
-                        <ListItemText primary={product.name} />
-                        <ListItemText>
-                            <img src={product.image} alt={product.name} style={{ width: '100px', height: '100px' }} />
-                        </ListItemText>
-                        <ListItemText primary={product.quantity} />
-                        <ListItemText primary={product.price} />
-                        <IconButton onClick={() => deleteProduct(product._id)} color="secondary">
-                            <DeleteIcon />
-                        </IconButton>
-                        <IconButton onClick={() => editProduct(product._id)} color="primary">
-                            <EditIcon />
-                        </IconButton>
-                    </ListItem>
-                ))}
-                {/* // Formulaire d'ajout d'un product */}
-                {!editedProduct && ( // Cache le formulaire si on est en train de modifier un product
-                    <ListItem>
-                        <form onSubmit={handleAddProductSubmit}>
-                            <input
-                                type="text"
-                                name="name"
-                                value={newProduct.name}
-                                onChange={handleNewProductChange}
-                                placeholder="Name"
-                                required
-                            />
-                            <input
-                                type="file"
-                                name="image"
-                                // Ajouter un gestionnaire de changement d'image
-                                onChange={handleNewProductImageChange}
-                                required
-                            />
-                            <input
-                                type="number"
-                                name="quantity"
-                                value={newProduct.quantity}
-                                onChange={handleNewProductChange}
-                                placeholder="Quantity"
-                                required
-                            />
-                            <input
-                                type="number"
-                                step="0.01"
-                                name="price"
-                                value={newProduct.price === '' ? '' : parseFloat(newProduct.price)}
-                                onChange={handleNewProductChange}
-                                placeholder="Price"
-                                required
-                            />
-                            <button type="submit">Add Product</button>
-                        </form>
-                    </ListItem>
-                )}
-            </List>
+            <h1>Gestionnaire des produits </h1>
+            {!editedProduct && (
+                <div>
+                    {/* Formulaire d'ajout d'un produit */}
+                    <form onSubmit={handleAddProductSubmit}>
+                        <TextField
+                            type="text"
+                            name="name"
+                            value={newProduct.name}
+                            onChange={handleNewProductChange}
+                            label="Nom du produit"
+                            required
+                        />
+                        <TextField
+                            type="text"
+                            name="image"
+                            value={newProduct.image}
+                            onChange={handleNewProductChange}
+                            alt="Product Image"
+                            className="edit-input"
+                            label="Image"
+                            required
+                        />
+                        <TextField
+                            type="number"
+                            name="quantity"
+                            value={newProduct.quantity}
+                            onChange={handleNewProductChange}
+                            label="Quantité"
+                            required
+                        />
+                        <TextField
+                            type="float"
+                            step="0.01"
+                            name="price"
+                            value={newProduct.price}
+                            onChange={handleNewProductChange}
+                            label="Prix"
+                            required
+                        />
+                        <Button type="submit" variant="contained" color="primary">
+                            Ajouter un produit
+                        </Button>
+                    </form>
+                </div>
+            )}
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Nom</TableCell>
+                        <TableCell>Image</TableCell>
+                        <TableCell>Quantité</TableCell>
+                        <TableCell>Prix</TableCell>
+                        <TableCell>Actions</TableCell>
+                    </TableRow>
+                </TableHead>
+                {/* Formulaire d'édition d'un produit */}
+                <TableBody>
+                    {products.map((product) => (
+                        <TableRow key={product._id}>
+                            {editedProduct && editedProduct._id === product._id ? (
+                                <React.Fragment>
+                                    <TableCell>
+                                        <form onSubmit={handleEditProductSubmit}>
+                                            <input
+                                                type="text"
+                                                name="name"
+                                                value={editedProduct.name}
+                                                onChange={handleEditInputChange}
+                                                className="edit-input"
+                                            />
+                                        </form>
+                                    </TableCell>
+                                    <TableCell>
+                                        <form onSubmit={handleEditProductSubmit}>
+                                            <input
+                                                type="file"
+                                                name="image"
+                                                value={editedProduct.image}
+                                                onChange={handleEditImageChange}
+                                                className="edit-input"
+                                            />
+                                        </form>
+                                    </TableCell>
+                                    <TableCell>
+                                        <form onSubmit={handleEditProductSubmit}>
+                                            <input
+                                                type="number"
+                                                name="quantite"
+                                                value={editedProduct.quantity}
+                                                onChange={handleEditInputChange}
+                                                className="edit-input"
+                                            />
+                                        </form>
+                                    </TableCell>
+                                    <TableCell>
+                                        <form onSubmit={handleEditProductSubmit}>
+                                            <input
+                                                type="float"
+                                                name="price"
+                                                value={editedProduct.price}
+                                                onChange={handleEditInputChange}
+                                                className="edit-input"
+                                            />
+                                        </form>
+                                    </TableCell>
+                                    <TableCell>
+                                        <form onSubmit={handleEditProductSubmit}>
+                                            <button type="submit" className="save-button">Save</button>
+                                        </form>
+                                    </TableCell>
+                                </React.Fragment>
+                            ) : (
+                                <React.Fragment>
+                                    <TableCell>{product.name}</TableCell>
+                                    <TableCell>{product.image}</TableCell>
+                                    <TableCell>{product.quantity}</TableCell>
+                                    <TableCell>{product.price}</TableCell>
+                                    <TableCell>
+                                        <div className="action-buttons">
+                                            <IconButton onClick={() => deleteProduct(product._id)} color="secondary">
+                                                <DeleteIcon />
+                                            </IconButton>
+                                            <IconButton onClick={() => editProduct(product._id)} color="primary">
+                                                <EditIcon />
+                                            </IconButton>
+                                        </div>
+                                    </TableCell>
+                                </React.Fragment>
+                            )}
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
         </div>
     );
-}
+}      

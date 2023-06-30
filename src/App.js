@@ -1,6 +1,5 @@
-import {Routes, Route} from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import './App.css';
-
 import Navbar from "./components/layouts/Navbar";
 import Home from "./components/Home"
 import Login from "./components/Login"
@@ -9,6 +8,7 @@ import Dashboard from './components/Dashboard';
 import User from './components/User';
 import Product from './components/Product';
 import Cart from './components/Cart';
+import { AdminRoute } from './components/AdminRoute';
 
 
 function App() {
@@ -21,9 +21,24 @@ function App() {
         <Route path="/register" element={<Register />}></Route>
         <Route path="/cart" element={<Cart />}></Route>
 
-        <Route path="/admin" element={<Dashboard />}></Route>
-        <Route path="/admin/users" element={<User />}></Route>    
-        <Route path="/admin/products" element={<Product />}></Route>    
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute component={<Dashboard/>}>
+            </AdminRoute>}
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <AdminRoute component={<User/>}>
+            </AdminRoute>}
+        />
+        <Route
+          path="/admin/products"
+          element={
+            <AdminRoute component={<Product/>}>
+            </AdminRoute>}
+        />   
       </Routes>
     </div>
   );

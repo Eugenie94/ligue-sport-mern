@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../assets/styles/dashboard.css'
+import '../assets/styles/dashboard.css';
 
 export default function Dashboard() {
   return (
     <div className="dashboard">
-      <h1>Tableau de bord</h1>
-      <p>Bienvenue dans le Tableau de bord de Amazone. Cette interface vous permettra, en tant qu'admin, de gérer les éléments de la base de données.</p>
+      <h1 className="dashboard-title">Tableau de bord</h1>
+      <p className="dashboard-description">Bienvenue dans le Tableau de bord. Cette interface vous permettra, en tant qu'admin, de gérer les éléments de la base de données.</p>
       <div className="dashboard-options">
         <Link to="/admin/users" className="dashboard-option">
           <div className="dashboard-option-icon">Utilisateurs</div>
