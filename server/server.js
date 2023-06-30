@@ -128,7 +128,7 @@ app.get("/admin", (req, res) => {
 })
 
 // Affichage de la page permettant d'afficher les products
-app.get("/admin/products", async (req, res) => {
+app.get("/products", async (req, res) => {
       try {
             const products = await Product.find();
             res.status(200).json(products);
@@ -139,7 +139,7 @@ app.get("/admin/products", async (req, res) => {
 });
 
 // Affichage de la page permettant d'ajouter un product
-app.post('/admin/products', async (req, res) => {
+app.post('/products', async (req, res) => {
       try {
         const { name, quantity, price, image } = req.body;
         const newProduct = new Product({ name, quantity, price,  image });
